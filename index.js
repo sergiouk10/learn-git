@@ -1,1 +1,1 @@
-console.info("removed-123-test");
+console.info("removed-123");
