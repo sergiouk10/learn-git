@@ -1,1 +1,1 @@
-console.info("removed2");
+console.info("***REMOVED***");
