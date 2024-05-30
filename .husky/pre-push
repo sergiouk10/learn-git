@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-COMPARE_HISTORY=`git log origin/main..main`
+# COMPARE_HISTORY=`git log origin/main..main`
 COMPARE_HISTORY=`git log main..origin/main`
 
 RED='\033[0;31m'
