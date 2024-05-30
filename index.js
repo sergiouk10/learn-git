@@ -1,1 +1,1 @@
-console.info("remove-secret");
+console.info("new-secret");
