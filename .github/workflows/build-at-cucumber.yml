@@ -1,0 +1,33 @@
+name: Test dispatch
+
+concurrency:
+  group: build-at-cucumber
+  cancel-in-progress: false
+
+on: # yamllint disable-line rule:truthy
+  workflow_dispatch:
+
+jobs:
+  run-shell-command:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: echo a string
+        id: pod
+        # shell: bash
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+      - name: echo a string 2
+        env:
+          TEST: ${{ steps.pod.outputs.sha_short }}
+        run: echo ${{ steps.pod.outputs.sha_short }}
+      - name: echo a github object
+        run: echo ${{ github.event }}
+      # - name: multiline script
+      #   run: |
+      #     node -v
+      #     npm -v
+      # - name: Sleep for 30 seconds
+      #   run: sleep 10s
+      #   shell: bash
+      # - name: echo after delay
+      #   run: echo "Hello After Delay"
