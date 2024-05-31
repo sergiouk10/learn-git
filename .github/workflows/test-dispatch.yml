@@ -26,7 +26,7 @@ jobs:
       - name: (git remote show origin)
         run: |
           echo "$(git remote show origin)"
-          ech "sergio"
+          echo "sergio"
       # - name: multiline script
       #   run: |
       #     node -v
