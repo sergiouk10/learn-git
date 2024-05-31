@@ -16,8 +16,8 @@ jobs:
         env:
           TEST: ${{ steps.pod.outputs.sha_short }}
         run: echo ${{ steps.pod.outputs.sha_short }}
-      - name: echo a github object
-        run: echo ${{ github.event }}
+      - name: (git remote show origin)
+        run: echo "$(git remote show origin)"
       # - name: multiline script
       #   run: |
       #     node -v
