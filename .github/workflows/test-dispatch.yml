@@ -1,9 +1,5 @@
 name: Test dispatch
 
-concurrency:
-  group: build-at-cucumber
-  cancel-in-progress: false
-
 on: # yamllint disable-line rule:truthy
   workflow_dispatch:
 
