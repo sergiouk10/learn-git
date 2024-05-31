@@ -24,7 +24,9 @@ jobs:
           TEST: ${{ steps.pod.outputs.sha_short }}
         run: echo ${{ steps.pod.outputs.sha_short }}
       - name: (git remote show origin)
-        run: echo "$(git remote show origin)"
+        run: |
+          echo "$(git remote show origin)"
+          ech "sergio"
       # - name: multiline script
       #   run: |
       #     node -v
