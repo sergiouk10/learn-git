@@ -25,6 +25,18 @@ jobs:
         run: echo ${{ steps.pod.outputs.sha_short }}
       - name: (git remote show origin)
         run: echo "$(git remote show origin)"
+      - name: Get branch name
+        id: get_branch_name
+        run: |
+          # Extract branch name for push events
+          if [[ "${GITHUB_REF}" == refs/heads/* ]]; then
+            echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+          # Extract branch name for pull request events
+          elif [[ "${GITHUB_REF}" == refs/pull/*/merge ]]; then
+            echo "BRANCH_NAME=${GITHUB_HEAD_REF}" >> $GITHUB_ENV
+          fi
+      - name: Display branch name
+        run: echo "The branch name is ${{ env.BRANCH_NAME }}"
       # - name: multiline script
       #   run: |
       #     node -v
