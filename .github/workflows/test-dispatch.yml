@@ -9,6 +9,7 @@ on: # yamllint disable-line rule:truthy
       - assigned
       - unassigned
       - edited
+  push:
 
 jobs:
   run-shell-command:
