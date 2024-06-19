@@ -1,0 +1,40 @@
+name: PR Checks
+
+on: pull_request
+
+jobs:
+  run-checks:
+    name: Run PR Checks
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.head_commit.message, 'skip ci') }}
+    steps:
+      - name: Checkout commit
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.inputs.pr_commit_sha }}
+      - name: Setup workspace
+        id: setup-workspace
+        uses: ./.github/actions/ci/workspace-setup
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          bot-private-key: ${{ secrets.FE_CORE_BOT_PRIVATE_KEY }}
+          bot-install-id: ${{ secrets.FE_CORE_BOT_INSTALLATION_ID }}
+          bot-app-id: ${{ secrets.FE_CORE_BOT_APP_ID }}
+          show-source-info: "true"
+      - name: Setup repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.39.4
+      - name: Run private key check script
+        run: |
+          TEMP_FILE=$(mktemp)
+          echo "Created temporary file: $TEMP_FILE"
+          curl -sS -H "Authorization: token "${{ steps.setup-workspace.outputs.action-token }}"" -o $TEMP_FILE -L https://raw.githubusercontent.com/ITV/fe-core-cli/DE-1327-checking-git-history-command/ci/check-private-keys.sh
+          echo "Downloaded script to $TEMP_FILE"
+          chmod +x $TEMP_FILE
+          $TEMP_FILE
